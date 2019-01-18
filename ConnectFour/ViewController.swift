@@ -12,9 +12,24 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let model = Model()
+        
+        let moves = [0,0,1,4,0,1,4,0,0,0]
+        
+        for move in moves {
+            model.makePlay(at: move) { (success, position) in
+                if success {
+                    print(position!.0, position!.y)
+                }
+            }
+        }
+        
+        model.seeGrid()
+
     }
 
+    
 
 }
 
