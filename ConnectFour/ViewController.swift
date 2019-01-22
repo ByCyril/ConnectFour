@@ -8,54 +8,53 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, GridDelegate {
 
-    let model = Model()
+    var game: ConnectFour!
+    var grid: Grid!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        self.layout()
-        self.view.backgroundColor = .white
         
-    }
-    
-    func layout() {
-        
-        var x = 20
-        
-        for i in 0..<7 {
-            self.createButton(x, i)
-            x += 50
-        }
-    }
-    
-    func createButton(_ x: Int, _ tag: Int) {
-        let button = UIButton(frame: CGRect(x: x, y: 200, width: 50, height: 50))
-        button.tag = tag
-        button.setTitle("O", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .green
-        button.addTarget(self, action: #selector(ViewController.play(_:)), for: .touchUpInside)
-        self.view.addSubview(button)
-    }
-    
-    @objc func play(_ sender: UIButton) {
-        print("clicked")
-        print(sender.tag)
-        model.makePlay(at: sender.tag) { (results) in
-            print(results.winner, results.player)
-            if results.winner {
-                print("here")
-                print("Winner", results.player!)
-                
-            } else {
-                print("here2")
+        self.view.backgroundColor = UIColor.white
 
-                self.model.seeGrid()
+        game = ConnectFour()
+        grid = Grid(frame: self.view.bounds)
+        grid.delegate = self
+        self.view.addSubview(grid)
+        
+    }
+    
+    func selectedPiece(_ r: Int, _ c: Int) {
+    
+        game.makePlay(at: c) { (results) in
+          
+            switch results.gameState {
+            case .invalidInput:
+                print("try again")
+            case .playerOneWins:
+                print("Red Wins")
+            case .playerTwoWins:
+                print("Blue Wins")
+            case .tie:
+                print("Tie Game")
+            case .playerOneTurn:
+                let r = results.location!.r
+                let c = results.location!.c
+                self.grid.placePiece(r, c, .red)
+            case .playerTwoTurn:
+                let r = results.location!.r
+                let c = results.location!.c
+                self.grid.placePiece(r, c, .blue)
+            default:
+                break
+                
             }
         }
+        
+        
     }
+    
 
     
 
