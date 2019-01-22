@@ -32,18 +32,18 @@ class ViewController: UIViewController, GridDelegate {
             
             switch results.gameState {
             case .invalidInput:
-                self.grid.columnIsFull(to: self)
+                self.grid.columnIsFull()
                 
             case .playerOneWins:
                 self.grid.placePiece(r!, c!, .red)
-                self.grid.declareWinner("Red Wins!", to: self)
+                self.grid.declareWinner("Red Wins!")
                 
             case .playerTwoWins:
                 self.grid.placePiece(r!, c!, .blue)
-                self.grid.declareWinner("Blue Wins!", to: self)
+                self.grid.declareWinner("Blue Wins!")
                 
             case .tie:
-                self.grid.tieGame(to: self)
+                self.grid.tieGame()
                 
             case .playerOneTurn:
                 self.grid.placePiece(r!, c!, .red)
@@ -53,11 +53,8 @@ class ViewController: UIViewController, GridDelegate {
                 
             default:
                 break
-                
             }
         }
-        
-        
     }
     
 

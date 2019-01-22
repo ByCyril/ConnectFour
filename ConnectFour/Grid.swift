@@ -62,8 +62,8 @@ class Grid: UIView {
                 let piece = Piece(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
                 piece.row = r
                 piece.column = c
-                rowPieces.append(piece)
                 piece.addTarget(self, action: #selector(selectedPiece(_:)), for: .touchUpInside)
+                rowPieces.append(piece)
                 stack.addArrangedSubview(piece)
             }
             
@@ -76,16 +76,16 @@ class Grid: UIView {
         
     }
     
-    public func tieGame(to vc: UIViewController) {
-        showMessage("Game Over!", "Tie Game!", vc: vc)
+    public func tieGame() {
+        showMessage("Game Over!", "Tie Game!")
     }
     
-    public func columnIsFull(to vc: UIViewController) {
-        showMessage("Try again", "This column is already full", vc: vc)
+    public func columnIsFull() {
+        showMessage("Try again", "This column is already full")
     }
     
-    public func declareWinner(_ winner: String, to vc: UIViewController) {
-        showMessage("Game Over!", winner, vc: vc)
+    public func declareWinner(_ winner: String) {
+        showMessage("Game Over!", winner)
         disablePieces()
     }
     
@@ -130,7 +130,7 @@ class Grid: UIView {
         
     }
     
-    private func showMessage(_ title: String, _ message: String, vc: UIViewController) {
+    private func showMessage(_ title: String, _ message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Okay", style: .default, handler: nil)
         alert.addAction(cancel)
