@@ -19,8 +19,7 @@ class ViewController: UIViewController, GridDelegate {
         self.view.backgroundColor = UIColor.white
 
         game = ConnectFour()
-        grid = Grid(frame: self.view.bounds)
-        grid.delegate = self
+        grid = Grid(frame: self.view.bounds, vc: self, delegate: self)
         self.view.addSubview(grid)
         
     }
@@ -28,24 +27,30 @@ class ViewController: UIViewController, GridDelegate {
     func selectedPiece(_ r: Int, _ c: Int) {
     
         game.makePlay(at: c) { (results) in
-          
+            let r = results.location?.r
+            let c = results.location?.c
+            
             switch results.gameState {
             case .invalidInput:
-                print("try again")
+                self.grid.columnIsFull(to: self)
+                
             case .playerOneWins:
-                print("Red Wins")
+                self.grid.placePiece(r!, c!, .red)
+                self.grid.declareWinner("Red Wins!", to: self)
+                
             case .playerTwoWins:
-                print("Blue Wins")
+                self.grid.placePiece(r!, c!, .blue)
+                self.grid.declareWinner("Blue Wins!", to: self)
+                
             case .tie:
-                print("Tie Game")
+                self.grid.tieGame(to: self)
+                
             case .playerOneTurn:
-                let r = results.location!.r
-                let c = results.location!.c
-                self.grid.placePiece(r, c, .red)
+                self.grid.placePiece(r!, c!, .red)
+                
             case .playerTwoTurn:
-                let r = results.location!.r
-                let c = results.location!.c
-                self.grid.placePiece(r, c, .blue)
+                self.grid.placePiece(r!, c!, .blue)
+                
             default:
                 break
                 

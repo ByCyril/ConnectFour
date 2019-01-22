@@ -44,7 +44,6 @@ class ConnectFour {
                 if grid[r][column] == 0 {
                     grid[r][column] = turnState
                     totalTurns += 1
-                    print(totalTurns)
                     completion((currentGameState(), (r, column)))
                     break
                 }
@@ -52,9 +51,10 @@ class ConnectFour {
         }
     }
     
-    public func currentGameState() -> GameState {
+    private func currentGameState() -> GameState {
         
         if winnerFound() {
+            clearGrid()
             if turnState == 1 {
                 return .playerOneWins
             } else {
@@ -75,6 +75,15 @@ class ConnectFour {
     
     private func winnerFound() -> Bool {
         return checkVertical() || checkHorizontal() || checkLeftDiagonal() || checkRightDiagonal()
+    }
+    
+    private func clearGrid() {
+        grid = [[0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0]]
     }
     
     private func checkHorizontal() -> Bool {
@@ -107,7 +116,6 @@ class ConnectFour {
                 
                 if w == x && w == y && w == z && w != 0 {
                     return true
-                    
                 }
                 
             }
